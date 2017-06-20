@@ -2,7 +2,6 @@
 reference Hadoop
 
 #JAVA
-
 $ cd /usr/local/lib
 $ tar xvfz jdk-8u79-linux-x64.gz
 $ ln -s jdk1.8.0_131 java
