@@ -9,3 +9,5 @@ $ vi /etc/profile
   export CLASS_PATH="."
  
 $ source /etc/profile
+
+https://stackoverflow.com/questions/20303815/hadoop-single-node-cluster-installation-on-ubuntu
