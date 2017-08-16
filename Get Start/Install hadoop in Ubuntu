@@ -1,3 +1,8 @@
 ###Install hadoop in Ubuntu###
 
+#Ref URL
 https://www.digitalocean.com/community/tutorials/how-to-install-hadoop-in-stand-alone-mode-on-ubuntu-16-04
+
+#Apache Home 
+http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html
+
