@@ -1,4 +1,11 @@
-# MapperEX to JAVA
+// MapperEX to JAVA
+
+// CODE :    Mapper<LongWritable, Text, Text, IntWritable>
+// CONCEPT : Mapper<input key, input value, output key, output value>
+// TYPE :    Mapper<Long Integer, String, String, Integer>
+
+// Hadoop provides a default typeset for optimized network serial configurations. It could fine org.apache.hadoop.io package.
+
 
 import java.io.IOException;
 
@@ -30,7 +37,5 @@ public class MaxTemperatureMapper
       
      }
     }
-      
-      
       
       
