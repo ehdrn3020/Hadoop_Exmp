@@ -11,3 +11,15 @@ $ vi /etc/profile
 $ source /etc/profile
 
 https://stackoverflow.com/questions/20303815/hadoop-single-node-cluster-installation-on-ubuntu
+
+
+
+
+#eclipse
+project -> configure -> convert maven project   OR create new maven project
+maven -> add dependency -> Group ID : org.apache.hadoop
+                           Artifact ID : hadoop-core
+                           Version :  1.0.4
+check pom.xml(Maven dependencies)
+
+
