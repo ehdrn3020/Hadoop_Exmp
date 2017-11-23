@@ -12,7 +12,7 @@ $ source /etc/profile
 
 #How to install single node in Ubuntu
 https://stackoverflow.com/questions/20303815/hadoop-single-node-cluster-installation-on-ubuntu
-
+$ hadoop version
 
 #Hadoop Home Setting
 vi .bashrc
