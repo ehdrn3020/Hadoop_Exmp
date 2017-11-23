@@ -7,12 +7,17 @@ $ vi /etc/profile
   export JAVA_HOME=/usr/local/lib/java
   export PATH=$PATH:$JAVA_HOME/bin
   export CLASS_PATH="."
- 
 $ source /etc/profile
 
+
+#How to install single node in Ubuntu
 https://stackoverflow.com/questions/20303815/hadoop-single-node-cluster-installation-on-ubuntu
 
 
+#Hadoop Home Setting
+vi .bashrc
+export HADOOP_HOME=/home/ubuntu1/hadoop/hadoop-2.7.4
+export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
 
 
 #eclipse
