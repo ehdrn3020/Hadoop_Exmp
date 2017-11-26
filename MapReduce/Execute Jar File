@@ -1,0 +1,4 @@
+
+#bin/hadoop jar jar파일명 package명.메인class명 input폴더명 output폴더명  
+ex) #bin/hadoop jar FindMax.jar kr.test.maxtem.MaxTemperature input output
+
