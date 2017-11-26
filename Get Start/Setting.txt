@@ -24,7 +24,7 @@ export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
 project -> configure -> convert maven project   OR create new maven project
 maven -> add dependency -> Group ID : org.apache.hadoop
                            Artifact ID : hadoop-core
-                           Version :  1.0.4
+                           Version :  1.0.4   or 1.1.2
 check pom.xml(Maven dependencies)
 
 
