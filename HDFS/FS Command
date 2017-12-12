@@ -1,0 +1,2 @@
+ bin/hadoop fs -mkdir /donggu
+ bin/hadoop fs -ls /
