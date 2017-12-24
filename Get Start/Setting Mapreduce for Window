@@ -1,0 +1,48 @@
+###Configuration pom.xml
+    <dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-mapreduce-client-core</artifactId>
+			<version>2.7.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-common</artifactId>
+			<version>2.7.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-mapreduce-client-jobclient</artifactId>
+			<version>2.7.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-mapreduce-client-common</artifactId>
+			<version>2.7.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-mapreduce-client-shuffle</artifactId>
+			<version>2.7.4</version>
+		</dependency>
+http://www.dbguide.net/db.db?cmd=view&boardUid=187337&boardConfigUid=9&categoryUid=216&boardIdx=158&boardStep=1
+
+
+
+##Caused Error###
+#Eclipse Error 
+PriviledgedActionException as:DG cause:java.io.IOException: 
+Failed to set permissions of path: \tmp\hadoop-DG\mapred\staging\DG877722061\.staging to 0700
+
+#Download HADOOP-7682 patch
+This simple patch for Hadoop 1.0.3 should allow you to avoid the longstanding, 
+dreaded file permission exceptions when running Hadoop on Windows as described in issue HADOOP-7682.
+GIT : https://github.com/congainc/patch-hadoop_7682-1.0.x-win
+
+#ADD 
+properties -> Libraries -> add External Jars
+
+
