@@ -1,5 +1,5 @@
 ###Configuration pom.xml
-    <dependency>
+    		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-mapreduce-client-core</artifactId>
 			<version>2.7.4</version>
@@ -28,8 +28,9 @@
 			<artifactId>hadoop-mapreduce-client-shuffle</artifactId>
 			<version>2.7.4</version>
 		</dependency>
+#Ref
 http://www.dbguide.net/db.db?cmd=view&boardUid=187337&boardConfigUid=9&categoryUid=216&boardIdx=158&boardStep=1
-
+https://www.youtube.com/watch?v=LEcFpBCo_UU
 
 
 ##Caused Error###
@@ -42,7 +43,10 @@ This simple patch for Hadoop 1.0.3 should allow you to avoid the longstanding,
 dreaded file permission exceptions when running Hadoop on Windows as described in issue HADOOP-7682.
 GIT : https://github.com/congainc/patch-hadoop_7682-1.0.x-win
 
-#ADD 
+#ADD Jar
 properties -> Libraries -> add External Jars
 
+#ADD Code
+Job job = new Job();
+job.getConfiguration().set("fs.file.impl", "com.conga.services.hadoop.patch.HADOOP_7682.WinLocalFileSystem");
 
