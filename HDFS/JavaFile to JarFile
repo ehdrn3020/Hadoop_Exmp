@@ -1,0 +1,13 @@
+##JavaFile to JarFile Making classpath##
+
+#step 1# 
+Compile Java Program:
+javac URLCat.java -classpath $HADOOP_HOME/share/hadoop/common/hadoop-common-2.7.0.jar
+
+#step 2#
+Create jar file :
+jar cvf URLCat.jar URLCat.class
+
+#step 3#
+Execute program : (mention your hdfs file location)
+hadoop jar URLCat.jar URLCat hdfs://localhost:9000/dg/DONG.txt
