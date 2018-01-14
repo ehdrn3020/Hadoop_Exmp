@@ -1,0 +1,15 @@
+###distcp를 이용한 병렬 복사하기###
+
+= hadoop fs -cp 
+Ex]
+% hadoop distcp file1 file2
+% hadoop distcp -update hdfs://namenode1/foo hdfs://namenode2/foo
+
+Opt]
+distcp -overwite
+distcp -update
+distcp -delete
+distcp -p (keep file's meta info when file is copied) 
+
+default value : max 20 files(directory also)
+
