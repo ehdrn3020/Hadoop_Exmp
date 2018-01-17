@@ -1,0 +1,59 @@
+#Apache Flume Core Concepts
+Flume에서는 크게 Event와 Agent에 대한 개념을 이해하면 된다. Agent는 또한 Source, Channel, Sink로 구성되어져 있다.
+
+
+#Event
+Flume을 통해 전달되어지는 데이터의 기본 payload를 event라 부른다.
+Event는 0이상의 Header와 body영역으로 나뉜다. (Byte payload + set of string headers)
+Header는 key/value 형태이며, 라우팅을 결정하거나, 구조화된 정보(예를 들어, 이벤트가 발생된 서버의 호스트명, timestamp 등 추가 가능)를 
+운반할 때 활용된다.
+
+
+#Agent
+이벤트를 전달하는 컨테이너로서 Source, Channel, Sink로 흐름을 제어 하며, Agent간 Event 이동이 가능하며, 
+1개의 Agent가 다수의 Agent로 연결도 가능하다.
+
+
+#Source
+이벤트를 수집하여 채널로 전달, Interceptor, Channel Selector를 통해 수집된 데이터를 변경하거나 Channel을 지정할 수 있는 기능도 제공된다.
+
+#Channel
+이벤트를 Source와 Sink로 전달하는 통로로서 3가지 타입이 존재한다.
+
+#Sink
+Channel로 부터 받은 이벤트를 저장, 전달한다. Sink Processor를 통해 Sink할 대상을 다중 선택하거나 여러개의 Sink를 하나의 그룹으로 관리하여 
+Failover에 대응할 수 있다.
+ 
+
+#Source Details
+avro : Avro 클라이언트에서 전송하는 이벤트를 입력으로 사용, Agent와 Agent를 연결해줄 때 유용
+netcat : TCP로 라인 단위 수집
+seq : 0부터 1씩 증가하는 EVENT 생성
+exec : System Command를 수행하고 출력 내용을 수집
+syslogtcp : System 로그를 입력으로 사용
+spooldir : Spooling Directory 디렉토리에 새롭게 추가되는 파일을 데이터로 사용
+thirft : Thrift 클라이언트에서 전송하는 이벤트를 입력으로 사용
+jms : JMS 메시지 수집
+
+
+#Channel Details
+memory : Source에서 받은 이벤트를 Memory에 가지고 있는 구조로, 간편하고 빠른 고성능(High Throughput)을 제공하지만 이벤트 유실 가능성이 있다. 
+         즉, 프로세스가 비정상적으로 죽을 경우 데이터가 유실될 수 있다.
+jdbc : JDBC로 저장
+file : JDBC와 마찬가지로 속도는 Memory기반에 비해 느리지만, 프로세스가 비정상적으로 죽더라도 transactional하게 프로세스를 재시작하여 재처리하여 이벤트 유실이 없는 것이 장점이 있다.
+
+
+#Sink Details
+
+null : 이벤트를 버림
+logger : 테스트 또는 디버깅을 위한 로깅
+avro : 다른 Avro 서버(Avro Source)로 이벤트 전달
+hdfs : HDFS에 저장
+hbase : HBase에 저장
+elasticsearch : 이벤트를 변환해서 ElasticSearch에 저장
+file_roll : 로컬 파일에 저장
+thrift : 다른 Thrift 서버(Thrift Source)로 이벤트 전달
+
+
+
+Ref : http://hochul.net/blog/apache_flume_datacollector_1/
