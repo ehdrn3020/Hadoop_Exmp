@@ -1,0 +1,17 @@
+###Installation###
+
+URL
+http://apache.mirror.cdnetworks.com/flume/1.8.0/apache-flume-1.8.0-bin.tar.gz 
+http://apache.tt.co.kr/flume/1.8.0/apache-flume-1.8.0-bin.tar.gz 
+http://mirror.apache-kr.org/flume/1.8.0/apache-flume-1.8.0-bin.tar.gz 
+http://mirror.navercorp.com/apache/flume/1.8.0/apache-flume-1.8.0-bin.tar.gz 
+
+
+$ wget http://apache.mirror.cdnetworks.com/flume/1.8.0/apache-flume-1.8.0-bin.tar.gz 
+$ tar xzvf apache-fluem-x.y.z-bin.tar.gz
+
+$ export FLUME_HOME=~/home/name/apache-flume-x.y.z-bin
+$ export PAHT=$PATH:$FLUME_HOME/bin
+
+Execute
+$ flume-ng
