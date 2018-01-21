@@ -21,10 +21,10 @@ agent.channels.memoryChannel.capacity = 100
 
 
 $ bin/flume-ng agent 
---conf-file conf/flume-conf.properties.template 
---name agent 
+--conf-file conf/flume-conf.properties.template  #flume conf file path
+--name agent                                     #conf.properties agent's name
 --conf $FLUME_HOME/conf
--Dflume.root.logger=INFO,console
+-Dflume.root.logger=INFO,console                 #how to monitoring 
 
 
 #open another terminal and add file to source1.spoolDir, and check flume status.
