@@ -1,0 +1,37 @@
+###flume_conf###
+agent1.sources = source1
+agent1.channels = channel1
+agent1.sinks = sink1
+
+# For each one of the sources, the type is defined
+agent1.sources.source1.type = spooldir
+agent1.sources.source1.spoolDir = tmp/spooldir
+
+# The channel can be defined as follows.
+agent1.sources.source1.channels = channel1
+agent1.sinks.sink1.channel = channel1
+
+# Each sink's type must be defined
+agent1.sinks.sink1.type = hdfs
+agent1.sinks.sink1.hdfs.path = tmp/flume
+agent1.sinks.sink1.hdfs.filePrefix = events
+agent1.sinks.sink1.hdfs.fileSuffix = .log
+agent1.sinks.sink1.hdfs.inUsePrefix = _
+agent1.sinks.sink1.hdfs.fileType = DataStream
+
+# Each channel's type is defined.
+agent1.channels.channel1.type = file
+
+# In this case, it specifies the capacity of the memory channel
+agent1.channels.memoryChannel.capacity = 100
+
+
+
+###shell###
+$ echo -e "Hellow\nAgain" > tmp/spooldir/.file2.txt
+$ mv tmp/spooldir/.file2.txt tmp/spooldir/file2.txt
+$ bin/hadoop fs -cat  /tmp/flume/events.1516535033028.log
+Hellow
+Again
+
+
