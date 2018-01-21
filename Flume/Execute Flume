@@ -1,0 +1,30 @@
+$ vi bin/conf/flume-conf.properties
+agent.sources = source1
+agent.channels = channel1
+agent.sinks = sink1
+
+agent.sources.source1.type = spooldir
+agent.sources.source1.spoolDir = /tmp/spooldir
+
+agent.sources.source1.channels = channel1
+agent.sinks.sink1.channel = channel1
+
+# Each sink's type must be defined
+agent.sinks.sink1.type = logger
+
+# Each channel's type is defined.
+agent.channels.channel1.type = file
+
+# In this case, it specifies the capacity of the memory channel
+agent.channels.memoryChannel.capacity = 100
+
+
+
+$ bin/flume-ng agent 
+--conf-file conf/flume-conf.properties.template 
+--name agent 
+--conf $FLUME_HOME/conf
+-Dflume.root.logger=INFO,console
+
+
+#open another terminal and add file to source1.spoolDir, and check flume status.
