@@ -39,3 +39,9 @@ agent2.sinks.sink2.hdfs.fileType = DataStream
 agent2.channels.channel2.type = file
 agent2.channels.channel2.checkpointDir = /tmp/agent2.file-channel/checkpoint
 agent2.channels.channel2.dataDirs = /tmp/agent2/file-channel/data
+
+
+#execute
+$ flume-ng agent --conf-file ... --name agent1 ...
+$ flume-ng agent --conf-file ... --name agent2 ...
+
