@@ -1,1 +1,42 @@
-d
+#URL
+http://apache.mirror.cdnetworks.com/hive/ 
+http://apache.tt.co.kr/hive/ 
+http://mirror.apache-kr.org/hive/ 
+http://mirror.navercorp.com/apache/hive/ 
+
+#download
+$ wget http://mirror.apache-kr.org/hive/hive-2.3.2/apache-hive-2.3.2-bin.tar.gz 
+$ tar xzvf apache-hive-2.3.2-bin.tar.gz
+
+#path setting
+$ vi .bashrc
+export HIVE_HOME=/home/ubuntu1/hadoop/apache-hive-2.3.2-bin
+export PATH=$PATH:$HIVE_HOME/bin
+$ .source .bashrc
+
+
+# 하이브 2.0.0 버전부터는 하이브를 실행하기 전에 하이브 메타스토어를 초기화해야한다. 
+# 다음과 같이 initSchema를 이용해 메타스토어를 초기화 한다. hive-site.xml에 별도의 메타스토어를 설정하지 않았다면 
+# (예, MySQL, MS-SQL 등) -dbType에 derby를 사용한다.
+
+# test hive
+$ cd $HIVE_HOME
+$ bin/schematool -initSchema -dbType derby
+$ bin/hive
+> show tables;
+
+
+#simple function
+
+#non-Interactive mode
+vi script.q 
+  show tables;   :wq
+$ hive -f script.q
+  OK
+  Time taken: 5.269 seconds
+
+#direct mode
+$ hive -e 'SELECT * FROM dummy'
+  OK
+  Time taken: 5.269 seconds
+
