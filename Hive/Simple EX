@@ -1,0 +1,6 @@
+ create table records (year STRING, temperature INT, quality INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
+load data local inpath '/home/ubuntu1/hadoop/download/1901' overwrite into table records;
+#store path(directory) 
+conf/hive-default.xml/var = hive.metastore.warehouse.dir
+
+DESCRIBE DATABASE default;
