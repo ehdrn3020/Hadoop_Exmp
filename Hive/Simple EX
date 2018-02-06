@@ -12,3 +12,10 @@ conf/hive-default.xml/var = hive.metastore.warehouse.dir
 hive> show databases;
 hive> DESCRIBE DATABASE default;
 $ hdfs dfs -ls /user/hive/warehouse
+
+#query
+hive> select year, MAX(temperature)
+      from records
+      where temperature != 9999 and quality in (0, 1, 4, 5, 9)
+      group by year;
+
