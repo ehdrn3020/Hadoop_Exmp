@@ -1,2 +1,5 @@
  bin/hadoop fs -mkdir /donggu
  bin/hadoop fs -ls /
+
+ #다른경로에서
+ hdfs dfs -ls /
