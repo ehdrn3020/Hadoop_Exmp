@@ -1,0 +1,11 @@
+ $ wget http://mirror.navercorp.com/apache/spark/spark-2.2.1/spark-2.2.1-bin-hadoop2.7.tgz
+ 
+ #execute 
+ $ spark-shell
+ scala>
+ 
+ #readFile
+ scala> val lines = cs.textFile("home/hadoop/test.txt")
+ 
+ #Split each field
+ scala> val records = lines.map(_.split("\n"))
