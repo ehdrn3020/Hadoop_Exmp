@@ -5,7 +5,22 @@
  scala>
  
  #readFile
- scala> val lines = cs.textFile("home/hadoop/test.txt")
+ scala> val lines = sc.textFile("home/hadoop/test.txt")
  
  #Split each field
  scala> val records = lines.map(_.split("\n"))
+ 
+ #remove by filter
+ scala> val filtered = records.filter(rec => (rec(1) != "9999" && rec(2).matches("[0111]")))
+ 
+ #Grouping by key-value RDD
+ scala> val tuples = filtered.map(rec => (rec(0).toInt, rec(1).toInt))
+ scala> val maxTemps = tuples.reduceByKey((a, b) => Math.max(a, b))
+
+ #Output
+ scala> maxTemps.foreach(println(_))
+ scala> maxTemps.saveAsTextFile("output")
+ 
+ $ cat output/part-*
+ 
+ 
