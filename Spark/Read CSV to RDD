@@ -1,0 +1,44 @@
+###EX 1
+#maven
+    <dependency>
+      <groupId>com.databricks</groupId>
+      <artifactId>spark-csv_2.11</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+    
+ #code
+ package com.dgkang
+import org.apache.spark.SparkContext
+import org.apache.spark.SparkConf
+import org.apache.spark.sql.SQLContext
+import org.apache.spark.sql.types.{StructType, StructField, StringType, IntegerType};
+object Spark {
+  def main(args: Array[String]): Unit = {
+    val conf = new SparkConf().setAppName("Read CSV spark").setMaster("local")
+    val sc = new SparkContext(conf)
+    val sqlContext = new SQLContext(sc)
+
+    val customSchema = StructType(Array(
+      StructField("year", IntegerType, true),
+      StructField("make", StringType, true),
+      StructField("model",StringType, true),
+      StructField("comment", StringType, true)
+    ))
+
+    val pathToFile = "CSV.csv"
+    val df = sqlContext.read
+        .format("com.databricks.spark.csv")
+        .option("header","true")
+        .option("inferSchema","true")
+        .load(pathToFile)
+    println("Start Spark dg...")
+
+    df.rdd.cache()
+    df.rdd.foreach(println)
+    println(df.printSchema)
+    df.registerTempTable("CSV")
+
+    sqlContext.sql("select * from CSV").collect.foreach(println)
+
+  }
+}
