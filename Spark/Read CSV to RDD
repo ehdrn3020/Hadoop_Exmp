@@ -6,7 +6,7 @@
       <version>1.0.1</version>
     </dependency>
     
- #code
+ #code1 spark < 2.0.0
  package com.dgkang
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkConf
@@ -42,3 +42,49 @@ object Spark {
 
   }
 }
+
+
+
+#code2 spark > 2.0.0
+
+#Creating a SparkSession
+// Create a SparkSession. No need to create SparkContext
+// You automatically get it as part of the SparkSession
+val warehouseLocation = "file:${system:user.dir}/spark-warehouse"
+val spark = SparkSession
+   .builder()
+   .appName("SparkSessionZipsExample")
+   .config("spark.sql.warehouse.dir", warehouseLocation)
+   .enableHiveSupport()
+   .getOrCreate()
+
+
+#Configuring Spark’s Runtime Properties
+//set new runtime options
+spark.conf.set("spark.sql.shuffle.partitions", 6)
+spark.conf.set("spark.executor.memory", "2g")
+//get all settings
+val configMap:Map[String, String] = spark.conf.getAll()
+
+
+#Accessing Catalog Metadata
+//fetch metadata data from the catalog
+spark.catalog.listDatabases.show(false)
+spark.catalog.listTables.show(false)
+
+
+#Creating Datasets and Dataframes
+//create a Dataset using spark.range starting from 5 to 100, with increments of 5
+val numDS = spark.range(5, 100, 5)
+// reverse the order and display first 5 items
+numDS.orderBy(desc("id")).show(5)
+//compute descriptive stats and display them
+numDs.describe().show()
+// create a DataFrame using spark.createDataFrame from a List or Seq
+val langPercentDF = spark.createDataFrame(List(("Scala", 35), ("Python", 30), ("R", 15), ("Java", 20)))
+//rename the columns
+val lpDF = langPercentDF.withColumnRenamed("_1", "language").withColumnRenamed("_2", "percent")
+//order the DataFrame in descending order of percentage
+lpDF.orderBy(desc("percent")).show(false)
+
+Ref : https://databricks.com/blog/2016/08/15/how-to-use-sparksession-in-apache-spark-2-0.html
