@@ -1,0 +1,67 @@
+package kr.co.donggu.project
+//import org.apache.spark.SparkContext
+import org.apache.spark.SparkConf
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.types.{StructType, StructField, StringType, DoubleType};
+
+object dgText {
+  def main(args: Array[String]): Unit = {
+    val conf = new SparkConf().setAppName("Read CSV spark").setMaster("local")
+//    val sc = new SparkContext(conf)
+
+    val customSchema = StructType(Array(
+      StructField("ID", StringType, true),
+      StructField("거래일자", StringType, true),
+      StructField("지수코드",StringType, true),
+      StructField("지수코드명", StringType, true),
+      StructField("시가지수", DoubleType, true),
+      StructField("고가지수", StringType, true),
+      StructField("저가지수",StringType, true),
+      StructField("종가지수", StringType, true),
+      StructField("거래량", StringType, true),
+      StructField("거래대금", StringType, true),
+      StructField("대비구분",StringType, true),
+      StructField("대비", StringType, true),
+      StructField("수익률", StringType, true),
+      StructField("거래대금_기관", StringType, true),
+      StructField("거래대금_외국인",StringType, true),
+      StructField("거래대금_개인", StringType, true),
+      StructField("거래량_기관", StringType, true),
+      StructField("거래량_외국인",StringType, true),
+      StructField("거래량_개인", StringType, true)
+    ))
+
+    val spark = SparkSession
+      .builder()
+      .appName("Rcsv")
+      .config(conf = conf)
+      .getOrCreate()
+
+    val pathToFile = "fns_u_invest_201706*.dat"
+
+    val df = spark.read.format("com.databricks.spark.csv")
+      .option("sep","|")
+      .option("quote", "\n")
+      .option("header","false")
+      .option("inferSchema","true")
+      .schema(customSchema)
+      .load(pathToFile)
+
+    println("Start Spark dg...")
+
+    df.rdd.cache()
+    df.rdd.foreach(println)
+    println(df.printSchema)
+    df.createOrReplaceTempView("CSV")
+
+//    df.select($"거래일자", $"지수코드").show()
+    spark.sql("select * from CSV").collect.foreach(println)
+    spark.stop()
+
+  }
+
+  private def storeKospi(spark: SparkSession): Unit = {
+
+  }
+}
+
