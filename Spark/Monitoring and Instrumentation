@@ -8,4 +8,14 @@ A summary of RDD sizes and memory usage
 Environmental information.
 Information about the running executors
 
+
+#start history server
 $ ./sbin/start-history-server.sh
+
+
+#setting the conf file
+$ vi $SPARK_HOME/conf/spark_default.conf
+spark.eventLog.compress true
+spark.eventLog.dir hdfs://tmp/spark-events
+spark.eventLog.enabled true
+spark.history.fs.logDirectory hdfs://tmp/spark-events
