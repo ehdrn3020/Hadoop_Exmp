@@ -1,1 +1,37 @@
+package kr.co.comname.airobonews
+
+import org.apache.spark.SparkConf
+import org.apache.spark.sql.SparkSession
+
+object importData {
+  def main(args: Array[String]): Unit = {
+    val conf = new SparkConf().setAppName("Read CSV spark").setMaster("local")
+
+    val spark = SparkSession
+      .builder()
+      .appName("importData")
+      .config(conf = conf)
+      .getOrCreate()
+
+    val jdbcDF = spark.read
+      .format("jdbc")
+      .option("url","jdbc:mysql://192.168.111.111")
+      .option("dbtable","STK_DATABASE.KSP200S_DATA")
+      .option("user","article_ID")
+      .option("password","12341234")
+      .load()
+
+    jdbcDF.rdd.cache()
+    jdbcDF.rdd.foreach(println)
+    println(jdbcDF.printSchema)
+    jdbcDF.createOrReplaceTempView("CSV")
+
+    //    df.select($"거래일자", $"지수코드").show()
+    spark.sql("select * from CSV").collect.foreach(println)
+
+  }
+}
+
+
+
 https://docs.databricks.com/spark/latest/data-sources/sql-databases.html
