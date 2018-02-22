@@ -1,0 +1,7 @@
+start spark-shell
+scala> val myrdd = sc.parallelize(10 to 100).setName("test") 
+scala> myrdd.cache() 
+scala> myrdd.collect()
+
+http://localhost:4040
+If you take the steps above, you should see "test" RDD in the storage tab.
