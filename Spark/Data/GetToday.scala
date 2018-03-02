@@ -8,6 +8,13 @@ object kangText {
     val date = Calendar.getInstance().getTime()
     val fmt = new SimpleDateFormat("yyyy-MM-dd")
     val now = fmt.format(date)
-    println("now data"+now)
+    println("now data "+now)
+    
+    //get last year
+    val nowYear = new SimpleDataForamt("MM").format(data)
+    val lastYear = year.toInt - 1
+    println("last year "+lastYear)
   }
 }
+
+
