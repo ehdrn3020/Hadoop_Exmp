@@ -1,0 +1,12 @@
+  def writeDF(df: DataFrame): Unit={
+    val driver = "com.jdbc.Driver"
+    val url = "jdbc:mysql://192.168.111.111/STOCK_NEWS"
+    val table = "CAL_CAL_CPT"
+    val prop = new java.util.Properties
+    
+    prop.setProperty("driver","com.mysql.jdbc.Driver")
+    prop.setProperty("user","usrID")
+    prop.setProperty("password","1234")
+
+    df.write.mode("append").jdbc(url,table,prop)
+  }
