@@ -1,0 +1,156 @@
+package kr.co.bi.orn
+
+import java.text.SimpleDateFormat
+import java.util.Calendar
+
+import kr.co.bi.airobonews._
+import kr.co.bi.orn.Cal_cpt._
+import org.apache.spark.sql.functions._
+import org.apache.spark.sql.types._
+import org.apache.spark.sql.{DataFrame, SparkSession, _}
+import org.apache.spark.{SparkConf, SparkContext}
+object ornCalulate {
+  def main(args: Array[String]): Unit = {
+/*
+    val date = Calendar.getInstance().getTime()
+    val year = new SimpleDateFormat("yyyy").format(date)
+    val lastYear = year.toInt - 1
+    val month = new SimpleDateFormat("MM").format(date)
+    val day = new SimpleDateFormat("dd").format(date)
+*/
+
+    //spark table schema
+    val indexSchema = StructType(Array(
+      StructField("ID", IntegerType),StructField("TRD_DT", StringType),StructField("U_CD",StringType), StructField("U_NM", StringType),
+      StructField("STRT_PRC", DoubleType), StructField("HIGH_PRC", DoubleType), StructField("LOW_PRC",DoubleType), StructField("CLS_PRC", DoubleType),
+      StructField("TRD_QTY", StringType), StructField("TRD_AMT", LongType), StructField("DIFF_GB",StringType), StructField("DIFF", DoubleType),
+      StructField("YIELD", DoubleType), StructField("TRD_AMT_INST", LongType), StructField("TRD_AMT_FOR", LongType), StructField("TRD_AMT_INDIV", LongType),
+      StructField("TRD_QTY_INST", LongType), StructField("TRD_QTY_FOR", LongType), StructField("TRD_QTY_INDIV", LongType)
+    ))
+    val enameSchema = StructType(Array(
+      StructField("ID",IntegerType), StructField("TRD_DT",StringType), StructField("U_CD",StringType), StructField("U_NM",StringType),
+      StructField("YIELD_U",DoubleType), StructField("GICODE",StringType), StructField("ITEMABBRNM",StringType), StructField("CLS_PRC",IntegerType),
+      StructField("DIFF_GB",StringType), StructField("DIFF",DoubleType), StructField("YIELD_J",DoubleType), StructField("TRD_QTY",LongType),
+      StructField("TRD_AMT",LongType), StructField("NET_BUY_QTY",LongType), StructField("NET_BUY_AMT",LongType), StructField("SELL_QTY",LongType),
+      StructField("SELL_AMT",LongType), StructField("BUY_QTY",LongType), StructField("BUY_AMT",LongType),
+      StructField("TRD_AMT_INST",LongType), StructField("TRD_AMT_FOR",LongType), StructField("TRD_AMT_INDIV",LongType),
+      StructField("TRD_QYT_INST",LongType), StructField("TRD_QTY_FOR",LongType), StructField("TRD_QTY_INDIV",LongType), StructField("MKT_CAP",LongType)
+    ))
+    val kindSchema = StructType(Array(
+      StructField("ID",IntegerType), StructField("TRD_DT",StringType), StructField("I_CD",StringType), StructField("I_NM",StringType),
+      StructField("U_CD",StringType), StructField("U_NM",StringType), StructField("GICODE",StringType), StructField("ITEMABBRNM",StringType),
+      StructField("LIST_DT",StringType)
+    ))
+    val calCptSchema = StructType(Array(
+      StructField("ID",IntegerType), StructField("DIVISION", StringType), StructField("PY", StringType), StructField("PQ", StringType),
+      StructField("PM", StringType), StructField("PW", StringType), StructField("3D", StringType), StructField("2D", StringType),
+      StructField("EDATE", StringType), StructField("CD", StringType), StructField("NM", StringType), StructField("SUM", StringType),
+      StructField("CMX", DoubleType), StructField("CNM", DoubleType), StructField("WEIGHT", DoubleType)
+    ))
+    //지수데이터 분류
+    val indexDf = mariaDB.importDB("FNKSP_INDEX_VIEW","FNKSP_INDEX_VIEW")
+    //코스피지수
+    val indexKspDf = indexDf.filter("U_CD = \'I.001\'")
+    //코스피200지수
+    val indexKsp200Df = indexDf.filter("U_CD = \'I.101\'")
+    //코스닥지수
+    val indexKsqDf = indexDf.filter("U_CD = \'I.201\'")
+//    var ename = mariaDB.importDB("FNKSP200S_DATA","FNKSP200S_DATA")
+//    ename.show(10)
+
+
+    //지수데이터 저장
+//    val indexThisDf = storeKospiData("FNKSP_DATA",indexSchema, "data/dataIndiv/fns_u_invest_"+year+"*.dat")
+//    println(indexThisDf.count())
+//    val indexLastDf = storeKospiData("LAST_FNKSP_DATA",indexSchema, "data/fns_u_invest_"+lastYear+"all.dat")
+//    val indexDf = indexThisDf.distinct().union(indexLastDf)
+
+    //종목데이터 저장
+//    val enameThisDf = storeKospiData("FNKSP_SUB_DATA", enameSchema, "data/dataIndiv/fns_j_invest_"+year+"*.dat")
+//    val enameLastDf = storeKospiData("LAST_FNKSP_SUB_DATA", enameSchema, "data/fns_j_invest_"+lastYear+"all.dat")
+//    val enameDf = enameThisDf.distinct().union(enameLastDf)
+
+    //구성종목데이터 저장
+//    val kindDf = storeKospiData("FNKSP_OBOE_DATA", kindSchema, "data/fns_k_invest_20180305.dat")
+    //기간 저장
+//    val periodCd = mariaDB.importDB("PERIOD_CD","PERIOD_CD")
+
+    //연산식 저장
+    val cptExp = mariaDB.importDB("CPT_EXP_MNG_BSC", "CPT_EXP_MNG_BSC")
+    val cptExpKsp = cptExp.filter("DIVISION = \"IK\"")
+    val cptExpKsp200 = cptExp.filter("DIVISION = \"I2\"")
+    val cptExpKsq = cptExp.filter("DIVISION = \"IQ\"")
+    
+    //연산 저장 테이블 셋팅 
+    mariaDB.truncate("CAL_CAL_CPT")
+    var calCptStore = mariaDB.importDB("CAL_CAL_CPT", "CAL_CAL_CPT")
+    
+    //연산데이터 날짜
+    var calDate = indexKspDf.select("TRD_DT").sort(desc("TRD_DT")).limit(1).head().toString()
+    calDate = calDate.substring(1,11)
+
+    //배치연산
+    var calCptStoreIK = cal_cptIndex("IK",indexKspDf, calCptStore, cptExpKsp, calDate)
+    var calCptStoreI2 = cal_cptIndex("I2",indexKsp200Df, calCptStore, cptExpKsp200, calDate)
+    var calCptStoreIQ = cal_cptIndex("IQ",indexKsqDf, calCptStore, cptExpKsq, calDate)
+    calCptStore = calCptStoreIK.union(calCptStoreI2.union(calCptStoreIQ)).distinct()
+    
+    //지수배치 저장
+    mariaDB.writeDF(calCptStore)
+
+
+    //분류
+
+//    val kspTK = enameDf.join(kindDf.select("I_NM","GICODE").filter("I_NM=\"코스피\""), Seq("GICODE"), "inner")
+//    val kspT2 = enameDf.join(kindDf.select("I_NM","GICODE").filter("I_NM=\"코스피 200\""), Seq("GICODE"), "inner")
+//    val kspTQ = enameDf.join(kindDf.select("I_NM","GICODE").filter("I_NM=\"코스닥\""), Seq("GICODE"), "inner")
+
+
+  }
+
+  //데이터 저장
+  def storeKospiData(aName: String, schema: StructType, filePath: String): DataFrame = {
+
+    val conf = new SparkConf().setAppName("Conf "+aName).setMaster("local").set("spark.dirver.memory","2g").set("spark.executor.memory","2g")
+    val spark = SparkSession
+      .builder()
+      .appName(aName)
+      .config(conf = conf)
+      .getOrCreate()
+
+    val pathToFile = filePath
+    val df = spark.read.format("com.databricks.spark.csv")
+      .option("sep","|")
+      .option("quote", "\n")
+      .option("header","false")
+      .option("inferSchema","true")
+      .schema(schema)
+      .load(pathToFile)
+    println("Start Spark dg...")
+    df.rdd.cache()
+//    df.rdd.foreach(println)
+//    println(df.printSchema)
+    df.createOrReplaceTempView(aName)
+
+    df
+  }
+  //스키마 DF 생성
+  /*
+  def storeCalCptData(aName: String, schema: StructType): SparkSession = {
+    val conf = new SparkConf().setAppName("Conf "+aName).setMaster("local")
+//    val sc = new SparkContext(conf)
+    val spark = SparkSession
+      .builder()
+      .appName(aName)
+      .config(conf = conf)
+      .getOrCreate()
+//    val df = spark.createDataFrame()
+      .option("header","false")
+      .schema(schema)
+
+//    df.
+//    df.show()
+//    df
+  }*/
+
+}
