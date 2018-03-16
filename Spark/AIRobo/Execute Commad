@@ -1,1 +1,4 @@
 $ spark-submit --master local --class kr.co.bigster.orn.ornCalulate RobonewsProject-1.0-SNAPSHOT.jar
+
+$ spark-submit --master local[*] --class kr.co.bigster.orn.ornCalulate 
+--driver-class-path mysql-connector-java-5.1.31.jar --jars mysql-connector-java-5.1.31.jar RobonewsProject-1.0-SNAPSHOT.jar
